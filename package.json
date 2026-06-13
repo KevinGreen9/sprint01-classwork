@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "homepage": "https://KevinGreen9.github.io/sprint01-classwork",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "19.0.0",
@@ -17,6 +20,7 @@
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
     "@vitejs/plugin-react": "4.3.4",
+    "gh-pages": "^6.3.0",
     "globals": "15.15.0",
     "typescript": "5.7.2",
     "vite": "6.2.0"

@@ -55,6 +55,14 @@ export const App = () => {
     const changeStatus = (taskId: string, isDone: boolean, todolistId: TodolistType['id']) => {
         setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, isDone: isDone} : t)})
     }
+    const changeSpan = (taskId: string, newTitle: string, todolistId: TodolistType['id']) => {
+        setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, title: newTitle} : t)})
+    }
+    const changeTodolist = (todolistId: string, newTitle: string) => {
+        setTodolists(todolists.map(tl =>
+            tl.id === todolistId ? {...tl, title: newTitle} : tl
+        ))
+    }
 
     function changeFilter(filter: FilterValuesType, todolistId: TodolistType['id']) {
         setTodolists(todolists.map(tl =>
@@ -102,6 +110,8 @@ export const App = () => {
                 changeFilter={changeFilter}
                 addTask={addTask}
                 changeStatus={changeStatus}
+                changeSpan={changeSpan}
+                changeTodolist={changeTodolist}
                 filter={tl.filter}
             >Many intresting information</Todolist>
         )

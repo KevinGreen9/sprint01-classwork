@@ -1,7 +1,9 @@
 import {FilterValuesType, TodolistType} from './App';
-import React, {ChangeEvent} from "react";
+import  {ChangeEvent} from "react";
 import {AddItemForm} from "./AddItemForm.tsx";
 import {EditableSpan} from "./EdittableSpan.tsx";
+import {Button, Checkbox, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 
 export type TaskType = {
@@ -19,8 +21,7 @@ export type PropsType = {
     addTask: (title: string, todolistId: string) => void
     changeStatus: (taskId: string, isDone: boolean, todolistId: string) => void
     changeSpan: (taskId: string, newTitle: string, todolistId: string) => void
-    changeTodolist: ( newTodolist: string, todolistId: string) => void
-    children?: React.ReactNode
+    changeTodolist: (newTodolist: string, todolistId: string) => void
     filter: FilterValuesType
     deleteTodolist: (todolistId: string) => void
 
@@ -35,14 +36,21 @@ export const Todolist = (props: PropsType) => {
         props.changeTodolist(props.id, newTodolist)
     }
 
+    const deleteTodolistHandler = () => {
+        props.deleteTodolist(props.id)
+    }
+
     return (
         <div>
             <h3>
                 <EditableSpan title={props.title} onChange={onChangeTodolistHandler}/>
+                <IconButton onClick={deleteTodolistHandler}>
+                    <Delete/>
+                </IconButton>
             </h3>
 
-            <button onClick={() => props.deleteTodolist(props.id)}>🗑️</button>
             <AddItemForm addItem={addTask}/>
+
             <ul>
                 {
                     props.tasks.map(t => {
@@ -55,12 +63,13 @@ export const Todolist = (props: PropsType) => {
                             }
                             return (
                                 <li key={t.id} className={t.isDone ? 'is-done' : ''}>
-                                    <input type="checkbox"
+                                    <Checkbox
                                            onChange={onChangeInputHandler}
                                            checked={t.isDone}/>
                                     <EditableSpan title={t.title} onChange={onChangeSpanHandler}/>
-                                    <button onClick={onClickButtonHandler}>x
-                                    </button>
+                                    <IconButton onClick={onClickButtonHandler}>
+                                        <Delete/>
+                                    </IconButton>
                                 </li>
                             )
                         }
@@ -68,30 +77,30 @@ export const Todolist = (props: PropsType) => {
                 }
             </ul>
             <div>
-                <button
-                    className={props.filter === "all" ? "active-filter" : ''}
+                <Button
+                    color={'success'}
+                    variant={props.filter === "all" ? "contained" : 'text'}
                     onClick={() => {
                         props.changeFilter("all", props.id)
                     }}>
                     All
-                </button>
-                <button
-                    className={props.filter === "active" ? "active-filter" : ''}
+                </Button>
+                <Button
+                    color={'primary'}
+                    variant={props.filter === "active" ? "contained" : 'text'}
                     onClick={() => {
                         props.changeFilter("active", props.id)
                     }}>
                     Active
-                </button>
-                <button
-                    className={props.filter === "completed" ? "active-filter" : ''}
+                </Button>
+                <Button
+                    color={'secondary'}
+                    variant={props.filter === "completed" ? "contained" : 'text'}
                     onClick={() => {
                         props.changeFilter("completed", props.id)
                     }}>
                     Completed
-                </button>
-                <div>
-                    {props.children}
-                </div>
+                </Button>
             </div>
         </div>
     )

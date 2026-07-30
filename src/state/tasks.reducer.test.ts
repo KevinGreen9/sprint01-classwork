@@ -1,0 +1,103 @@
+import {v1} from "uuid";
+import {TaskStateType} from "../App.tsx"
+import {AddTaskAC, ChangeTaskStatusAC, RemoveTaskAC, tasksReducer} from "./tasks.reducer.ts";
+import {expect, test} from 'vitest';
+import {TaskType} from "../Todolist.tsx";
+
+
+test('correct task should be removed', () => {
+    const todolistId_1 = v1()
+    const todolistId_2 = v1();
+    const taskIdRemove = v1();
+
+    const startState: TaskStateType = {
+            [todolistId_1]: [
+                {id: v1(), title: "HTML&CSS", isDone: true},
+                {id: v1(), title: "JS", isDone: true},
+                {id: v1(), title: "ReactJS", isDone: false},
+                {id: v1(), title: "Rest API", isDone: false},
+                {id: v1(), title: "GraphQL", isDone: false}
+            ],
+            [todolistId_2]: [
+                {id: v1(), title: "Travel", isDone: true},
+                {id: taskIdRemove, title: "Shopping", isDone: true},
+                {id: v1(), title: "Study", isDone: false},
+                {id: v1(), title: "Relax", isDone: false},
+                {id: v1(), title: "Sport", isDone: false}
+            ]
+        }
+
+
+    const endState = tasksReducer(startState, RemoveTaskAC(todolistId_2, taskIdRemove));
+
+    expect(endState[todolistId_2].length).toBe(4);
+    expect(endState[todolistId_2].find(t => t.id === taskIdRemove)).toBeUndefined();
+
+    expect(endState[todolistId_1].length).toBe(5);
+    expect(Object.keys(endState)).toHaveLength(2);
+})
+
+test('correct task should be added', () => {
+    const todolistId_1 = v1()
+    const todolistId_2 = v1();
+    let newTask: TaskType = {
+        id: v1(),
+        title: "Good",
+        isDone: true
+    };
+
+    const startState: TaskStateType = {
+        [todolistId_1]: [
+            {id: v1(), title: "HTML&CSS", isDone: true},
+            {id: v1(), title: "JS", isDone: true},
+            {id: v1(), title: "ReactJS", isDone: false},
+            {id: v1(), title: "Rest API", isDone: false},
+            {id: v1(), title: "GraphQL", isDone: false}
+        ],
+        [todolistId_2]: [
+            {id: v1(), title: "Travel", isDone: true},
+            {id: v1(), title: "Shopping", isDone: true},
+            {id: v1(), title: "Study", isDone: false},
+            {id: v1(), title: "Relax", isDone: false},
+            {id: v1(), title: "Sport", isDone: false}
+        ]
+    }
+    const endState = tasksReducer(startState, AddTaskAC(todolistId_2, newTask));
+
+    expect(endState[todolistId_2]).toHaveLength(6);
+    expect(endState[todolistId_2].find(t => t.id === newTask.id)).toBeDefined();
+
+})
+
+test('correct task should be change the status', () => {
+    const todolistId_1 = v1()
+    const todolistId_2 = v1();
+    const taskIdToChange = v1();
+
+    const startState: TaskStateType = {
+        [todolistId_1]: [
+            {id: v1(), title: "HTML&CSS", isDone: true},
+            {id: v1(), title: "JS", isDone: true},
+            {id: v1(), title: "ReactJS", isDone: false},
+            {id: v1(), title: "Rest API", isDone: false},
+            {id: v1(), title: "GraphQL", isDone: false}
+        ],
+        [todolistId_2]: [
+            {id: v1(), title: "Travel", isDone: true},
+            {id: v1(), title: "Shopping", isDone: true},
+            {id: v1(), title: "Study", isDone: false},
+            {id: v1(), title: "Relax", isDone: false},
+            {id: taskIdToChange, title: "Sport", isDone: false}
+        ]
+    }
+
+    let newTaskStatus = true  ;
+
+    const endState = tasksReducer(startState, ChangeTaskStatusAC(todolistId_2, taskIdToChange, newTaskStatus ));
+
+    expect(endState[todolistId_2].find(t => t.id === taskIdToChange)?.isDone).toBe(true);
+
+
+
+
+})

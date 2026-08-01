@@ -1,6 +1,12 @@
 import {v1} from "uuid";
-import {TaskStateType} from "../App.tsx"
-import {AddTaskAC, ChangeTaskStatusAC, RemoveTaskAC, tasksReducer} from "./tasks.reducer.ts";
+import { TaskStateType} from "../App.tsx"
+import {
+    AddTaskAC,
+    ChangeTaskStatusAC,
+    ChangeTaskTitleAC,
+    RemoveTaskAC,
+    tasksReducer
+} from "./tasks.reducer.ts";
 import {expect, test} from 'vitest';
 import {TaskType} from "../Todolist.tsx";
 
@@ -101,3 +107,34 @@ test('correct task should be change the status', () => {
 
 
 })
+
+test('correct task should be change the title', () => {
+    const todolistId_1 = v1()
+    const todolistId_2 = v1();
+    const taskIdToChange = v1();
+
+    const startState: TaskStateType = {
+        [todolistId_1]: [
+            {id: v1(), title: "HTML&CSS", isDone: true},
+            {id: v1(), title: "JS", isDone: true},
+            {id: v1(), title: "ReactJS", isDone: false},
+            {id: v1(), title: "Rest API", isDone: false},
+            {id: v1(), title: "GraphQL", isDone: false}
+        ],
+        [todolistId_2]: [
+            {id: v1(), title: "Travel", isDone: true},
+            {id: v1(), title: "Shopping", isDone: true},
+            {id: v1(), title: "Study", isDone: false},
+            {id: v1(), title: "Relax", isDone: false},
+            {id: taskIdToChange, title: "Sport", isDone: false}
+        ]
+    }
+
+    let newTaskTitle = "SportPit"  ;
+
+    const endState = tasksReducer(startState, ChangeTaskTitleAC(todolistId_2, taskIdToChange, newTaskTitle ));
+
+    expect(endState[todolistId_2].find(t => t.id === taskIdToChange)?.title).toBe("SportPit");
+
+})
+

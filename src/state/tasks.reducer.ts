@@ -17,8 +17,14 @@ type ChangeTaskStatusType = {
     taskId: string
     isDone: boolean
 }
+type ChangeTaskTitleType = {
+    type: 'CHANGE_TASK_TITLE'
+    todolistId: string
+    taskId: string
+    title: string
+}
 
-type ActionsTypes = RemoveTaskType | AddTaskType | ChangeTaskStatusType
+type ActionsTypes = RemoveTaskType | AddTaskType | ChangeTaskStatusType | ChangeTaskTitleType
 
 export const tasksReducer = (state: TaskStateType, action: ActionsTypes): TaskStateType => {
 
@@ -47,10 +53,12 @@ export const tasksReducer = (state: TaskStateType, action: ActionsTypes): TaskSt
             }
             }
 
-        // case 'CHANGE-TODOLIST-FILTER': {
-        //     return state.map(t => t.id === action.id ? {...t, filter: action.filter} : t)
-        // }
-
+        case 'CHANGE_TASK_TITLE': {
+            const {todolistId, taskId, title} = action;
+         return {
+             ...state,
+             [todolistId]: state[todolistId].map(t => t.id === taskId ? {...t, title: title} : t)}
+        }
         default:
             throw new Error("I don't can to find the action type ");
     }
@@ -65,4 +73,7 @@ export const AddTaskAC = (todolistId: string, payload: TaskType): AddTaskType =>
 }
 export const ChangeTaskStatusAC = (todolistId: string,taskId: string, isDone: boolean): ChangeTaskStatusType => {
     return {type: 'CHANGE_TASK_STATUS', todolistId: todolistId, taskId: taskId, isDone: isDone}
+}
+export const ChangeTaskTitleAC = (todolistId: string,taskId: string, title: string): ChangeTaskTitleType => {
+    return {type: 'CHANGE_TASK_TITLE', todolistId: todolistId, taskId: taskId, title: title}
 }

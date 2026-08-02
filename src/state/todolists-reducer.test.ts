@@ -1,7 +1,7 @@
 import {AddTodoAC, ChangeFilterTodoAC, ChangeNameTodoAC, RemoveTodoAC, todolistsReducer} from "./todolists-reducer.ts";
 import {expect, test} from 'vitest';
 import {v1} from "uuid";
-import {FilterValuesType, TodolistType} from "../App.tsx";
+import {FilterValuesType, TodolistType} from "../AppWithReducer.tsx";
 
 test('correct todolist should be removed', () => {
     const todolistId_1 = v1()
@@ -26,19 +26,15 @@ test('correct todolist should be added', () => {
         {id: todolistId_1, title: "What to learn", filter: 'all'},
         {id: todolistId_2, title: "What to want?", filter: 'all'}
     ]
-    const newTodo: TodolistType = {
-        id: v1(),
-        title: 'New Todolist!!',
-        filter: "all"
-    }
+    const newTodo: TodolistType['title'] = 'New Todolist!!'
+
 
     const endState = todolistsReducer(startState, AddTodoAC(newTodo));
 
     expect(endState.length).toBe(3);
-    expect(endState[2]).toEqual(newTodo);
+    expect(endState[2].id).toBeDefined();
     expect(endState[2].filter).toBe('all');
     expect(endState[2].title).toBe('New Todolist!!');
-    expect(endState[2].id).toEqual(newTodo.id);
 })
 
 test("correct todolist should be changes it's name", () => {

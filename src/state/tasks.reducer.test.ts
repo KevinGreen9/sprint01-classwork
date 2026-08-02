@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import { TaskStateType} from "../App.tsx"
+import { TaskStateType} from "../AppWithReducer.tsx"
 import {
     AddTaskAC,
     ChangeTaskStatusAC,
@@ -8,7 +8,6 @@ import {
     tasksReducer
 } from "./tasks.reducer.ts";
 import {expect, test} from 'vitest';
-import {TaskType} from "../Todolist.tsx";
 
 
 test('correct task should be removed', () => {
@@ -38,7 +37,6 @@ test('correct task should be removed', () => {
 
     expect(endState[todolistId_2].length).toBe(4);
     expect(endState[todolistId_2].find(t => t.id === taskIdRemove)).toBeUndefined();
-
     expect(endState[todolistId_1].length).toBe(5);
     expect(Object.keys(endState)).toHaveLength(2);
 })
@@ -46,11 +44,7 @@ test('correct task should be removed', () => {
 test('correct task should be added', () => {
     const todolistId_1 = v1()
     const todolistId_2 = v1();
-    let newTask: TaskType = {
-        id: v1(),
-        title: "Good",
-        isDone: true
-    };
+    let newTask = "Good"
 
     const startState: TaskStateType = {
         [todolistId_1]: [
@@ -71,7 +65,9 @@ test('correct task should be added', () => {
     const endState = tasksReducer(startState, AddTaskAC(todolistId_2, newTask));
 
     expect(endState[todolistId_2]).toHaveLength(6);
-    expect(endState[todolistId_2].find(t => t.id === newTask.id)).toBeDefined();
+    expect(endState[todolistId_2][5].title).toBe("Good");
+    expect(endState[todolistId_2][5].isDone).toBe(false);
+    expect(endState[todolistId_2][5].id).toBeDefined();
 
 })
 

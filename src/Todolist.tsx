@@ -1,4 +1,4 @@
-import {FilterValuesType, TodolistType} from './App';
+import {FilterValuesType, TodolistType} from './AppWithReducer.tsx';
 import  {ChangeEvent} from "react";
 import {AddItemForm} from "./AddItemForm.tsx";
 import {EditableSpan} from "./EdittableSpan.tsx";
@@ -16,12 +16,12 @@ export type PropsType = {
     id: TodolistType["id"]
     title: string
     tasks: Array<TaskType>
-    removeTask: (taskId: string, todolistId: string) => void
-    changeFilter: (value: FilterValuesType, todolistId: string) => void
-    addTask: (title: string, todolistId: string) => void
-    changeStatus: (taskId: string, isDone: boolean, todolistId: string) => void
-    changeSpan: (taskId: string, newTitle: string, todolistId: string) => void
-    changeTodolist: (newTodolist: string, todolistId: string) => void
+    removeTask: (todolistId: string, taskId: string, ) => void
+    changeFilter: (todolistId: string, value: FilterValuesType) => void
+    addTask: (todolistId: string, title: string) => void
+    changeStatus: (todolistId: string, taskId: string, isDone: boolean ) => void
+    changeSpan: (todolistId: string, taskId: string, newTitle: string ) => void
+    changeTodolist: (todolistId: string, newTodolist: string ) => void
     filter: FilterValuesType
     deleteTodolist: (todolistId: string) => void
 
@@ -30,7 +30,7 @@ export type PropsType = {
 export const Todolist = (props: PropsType) => {
 
     const addTask = (title: string) => {
-        props.addTask(title, props.id)
+        props.addTask(props.id, title )
     }
     const onChangeTodolistHandler = (newTodolist: string) => {
         props.changeTodolist(props.id, newTodolist)
@@ -54,12 +54,12 @@ export const Todolist = (props: PropsType) => {
             <ul>
                 {
                     props.tasks.map(t => {
-                            const onClickButtonHandler = () => props.removeTask(t.id, props.id)
+                            const onClickButtonHandler = () => props.removeTask (props.id, t.id)
                             const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                                props.changeStatus(t.id, e.currentTarget.checked, props.id)
+                                props.changeStatus(props.id, t.id, e.currentTarget.checked)
                             }
                             const onChangeSpanHandler = (newValue: string) => {
-                                props.changeSpan(t.id, newValue, props.id)
+                                props.changeSpan(props.id, t.id, newValue)
                             }
                             return (
                                 <li key={t.id} className={t.isDone ? 'is-done' : ''}>
@@ -81,7 +81,7 @@ export const Todolist = (props: PropsType) => {
                     color={'success'}
                     variant={props.filter === "all" ? "contained" : 'text'}
                     onClick={() => {
-                        props.changeFilter("all", props.id)
+                        props.changeFilter( props.id,"all")
                     }}>
                     All
                 </Button>
@@ -89,7 +89,7 @@ export const Todolist = (props: PropsType) => {
                     color={'primary'}
                     variant={props.filter === "active" ? "contained" : 'text'}
                     onClick={() => {
-                        props.changeFilter("active", props.id)
+                        props.changeFilter(props.id,"active")
                     }}>
                     Active
                 </Button>
@@ -97,7 +97,7 @@ export const Todolist = (props: PropsType) => {
                     color={'secondary'}
                     variant={props.filter === "completed" ? "contained" : 'text'}
                     onClick={() => {
-                        props.changeFilter("completed", props.id)
+                        props.changeFilter(props.id,"completed" )
                     }}>
                     Completed
                 </Button>

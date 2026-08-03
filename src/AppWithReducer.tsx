@@ -5,13 +5,7 @@ import {v1} from 'uuid'
 import {AddItemForm} from "./AddItemForm.tsx";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import {
-    AddTodoAC,
-    ChangeFilterTodoAC,
-    ChangeNameTodoAC,
-    RemoveTodoAC,
-    todolistsReducer
-} from "./state/todolists-reducer.ts";
+import {AddTodoAC, ChangeFilterTodoAC, ChangeNameTodoAC, RemoveTodoAC, todolistsReducer} from "./state/todolists-reducer.ts";
 import {AddTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, tasksReducer} from "./state/tasks.reducer.ts";
 
 

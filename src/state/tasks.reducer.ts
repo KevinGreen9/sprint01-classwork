@@ -1,6 +1,6 @@
 import {TaskStateType} from "../AppWithReducer.tsx";
 import {v1} from 'uuid'
-import {AddTodoActionType, RemoveTodoActionType} from "./todolists-reducer.ts";
+import {AddTodoActionType, RemoveTodoActionType, todolistId_1, todolistId_2} from "./todolists-reducer.ts";
 
 type RemoveTaskType = {
     type: 'REMOVE_TASK'
@@ -31,8 +31,24 @@ type ChangeTaskTitleType = {
 
 type ActionsTypes = RemoveTaskType | AddTaskType | ChangeTaskStatusType | ChangeTaskTitleType | AddTodoActionType | RemoveTodoActionType
 
+const initialState: TaskStateType = {
+    [todolistId_1]: [
+        {id: v1(), title: "HTML&CSS", isDone: true},
+        {id: v1(), title: "JS", isDone: true},
+        {id: v1(), title: "ReactJS", isDone: false},
+        {id: v1(), title: "Rest API", isDone: false},
+        {id: v1(), title: "GraphQL", isDone: false}
+    ],
+        [todolistId_2]: [
+        {id: v1(), title: "Travel", isDone: true},
+        {id: v1(), title: "Shopping", isDone: true},
+        {id: v1(), title: "Study", isDone: false},
+        {id: v1(), title: "Relax", isDone: false},
+        {id: v1(), title: "Sport", isDone: false}
+    ]
+}
 
-export const tasksReducer = (state: TaskStateType, action: ActionsTypes): TaskStateType => {
+export const tasksReducer = (state: TaskStateType = initialState, action: ActionsTypes): TaskStateType => {
 
     switch (action.type) {
         case 'REMOVE_TASK': {
@@ -73,7 +89,7 @@ export const tasksReducer = (state: TaskStateType, action: ActionsTypes): TaskSt
             }
 
         }
-        case 'REMOVE-TODOLIST': { // ✅ Добавляем обработку удаления
+        case 'REMOVE-TODOLIST': {
             const {id} = action;
             const newState = {...state};
             delete newState[id]; // Удаляем ключ с задачами удалённого тудулиста

@@ -1,4 +1,4 @@
-import {FilterValuesType, TodolistType} from "../AppWithReducer.tsx";
+import {FilterValuesType, TodolistType} from "../AppWithRedux.tsx";
 import {v1} from "uuid";
 
 export type RemoveTodoActionType = {

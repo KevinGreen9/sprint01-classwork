@@ -1,4 +1,4 @@
-import {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import { IconButton, TextField} from "@mui/material";
 import {ControlPoint} from "@mui/icons-material";
 
@@ -6,7 +6,7 @@ export type CreateSampleType = {
     addItem: (title: string) => void
 }
 
-export function AddItemForm(props: CreateSampleType) {
+export const  AddItemForm = React.memo ((props: CreateSampleType)=> {
     const [title, setTitle] = useState<string>('')
     let [error, setError] = useState<string | null>(null)
 
@@ -25,7 +25,9 @@ export function AddItemForm(props: CreateSampleType) {
     }
 
     const onKeyEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+        if(error !== null) {
+           setError(null)
+       }
         if (e.key === 'Enter') {
             addTask()
         }
@@ -44,3 +46,4 @@ export function AddItemForm(props: CreateSampleType) {
         </IconButton>
     </div>
 }
+)

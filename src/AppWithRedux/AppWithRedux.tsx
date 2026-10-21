@@ -1,6 +1,6 @@
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
-import {AddItemForm} from "./AddItemForm.tsx";
+import {AddItemForm} from "./AddItemForm/AddItemForm.tsx";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import {AddTodoAC, ChangeFilterTodoAC, ChangeNameTodoAC, RemoveTodoAC} from "./state/todolists-reducer.ts";

@@ -1,7 +1,7 @@
-import {FilterValuesType, TodolistType} from './AppWithRedux.tsx';
+import {FilterValuesType, TodolistType} from './AppWithRedux/AppWithRedux.tsx';
 import React, {useCallback} from "react";
-import {AddItemForm} from "./AddItemForm.tsx";
-import {EditableSpan} from "./EdittableSpan.tsx";
+import {AddItemForm} from "./AddItemForm/AddItemForm.tsx";
+import {EditTableSpan} from "./EditTableSpan.tsx";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task.tsx";
@@ -53,7 +53,7 @@ export const Todolist = React.memo(function (props: PropsType) {
     return (
         <div>
             <h3>
-                <EditableSpan title={props.title} onChange={onChangeTodolistHandler}/>
+                <EditTableSpan title={props.title} onChange={onChangeTodolistHandler}/>
                 <IconButton onClick={deleteTodolistHandler}>
                     <Delete/>
                 </IconButton>

@@ -1,4 +1,4 @@
-import {TaskStateType} from "../AppWithRedux.tsx";
+import {TaskStateType} from "../AppWithRedux/AppWithRedux.tsx";
 import {v1} from 'uuid'
 import {AddTodoActionType, RemoveTodoActionType, todolistId_1, todolistId_2} from "./todolists-reducer.ts";
 
